@@ -1,0 +1,15 @@
+<h2>All Restaurants</h2>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <h5><strong>Restaurant</strong></h5>
+    <span class="badge bg-primary rounded-pill">Reviews</span>
+  </li>
+  <% @restaurants.each do |restaurant| %>
+    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+      <%= link_to restaurant.name, restaurant_path(restaurant)%>
+      <span class="badge bg-primary rounded-pill"><%= restaurant.reviews.count() %></span>
+    </li>
+  <% end %>
+</ul>
+<br/>
+<%= link_to "Create New", new_restaurant_path, class: "btn btn-primary" %>

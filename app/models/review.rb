@@ -1,0 +1,32 @@
+class Review < ApplicationRecord
+  belongs_to :restaurant
+
+  validates :content, :rating, presence: true
+  validates :rating, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }
+
+  def new
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @review = Review.new
+  end
+
+  def create
+    @review = Review.new(review_params)
+    @review.restaurant = @restaurant
+    if @review.save
+      redirect_to restaurant_path(@restaurant)
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:restaurant_id])
+  end
+
+  def review_params
+    params.require(:review).permit(:content)
+  end
+
+end
